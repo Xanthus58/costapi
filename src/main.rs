@@ -28,7 +28,7 @@ async fn root() -> impl Responder {
 }
 
 #[get("/{creature}")]
-async fn displayout(arg: web::Path<(String)>) -> impl Responder {
+async fn displayout(arg: web::Path<String>) -> impl Responder {
     let arg = arg.into_inner();
     let creature = format!("{}", arg.to_string().to_ascii_lowercase());
     let response = returncreaturedata(&creature);
