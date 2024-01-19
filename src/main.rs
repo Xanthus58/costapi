@@ -1,7 +1,7 @@
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use sqlite::State;
 
-fn returndbdata(creature: &str) -> String {
+fn returncreaturedata(creature: &str) -> String {
     let connection = sqlite::open("./data/sqlite.db").unwrap();
     let mut query = "SELECT * FROM cosdata WHERE creature = ";
 
@@ -29,19 +29,19 @@ async fn root() -> impl Responder {
 
 #[get("/Adharcaiin")]
 async fn Adharcaiin() -> impl Responder {
-    let response = returndbdata("Adharcaiin");
+    let response = returncreaturedata("Adharcaiin");
     HttpResponse::Ok().body(response)
 }
 
 #[get("/Aereis")]
 async fn Aereis() -> impl Responder {
-    let response = returndbdata("Aereis");
+    let response = returncreaturedata("Aereis");
     HttpResponse::Ok().body(response)
 }
 
 #[get("/Aesho")]
 async fn Aesho() -> impl Responder {
-    let response = returndbdata("Aesho");
+    let response = returncreaturedata("Aesho");
     HttpResponse::Ok().body(response)
 }
 
