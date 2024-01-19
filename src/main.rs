@@ -3,7 +3,7 @@ use sqlite::State;
 
 fn returncreaturedata(creature: &str) -> String {
     let connection = sqlite::open("./data/sqlite.db").unwrap();
-    let mut query = "SELECT * FROM cosdata WHERE creature = ";
+    let mut query = "SELECT * FROM costdata WHERE creature = ";
 
     let creature = format!("'{}'", creature);
 
@@ -24,24 +24,24 @@ fn returncreaturedata(creature: &str) -> String {
 
 #[get("/")]
 async fn root() -> impl Responder {
-    HttpResponse::Ok().body("Endpoints:\n    Adharcaiin\n    Aereis\n    Aesho")
+    HttpResponse::Ok().body("Endpoints:\n    adharcaiin\n    aereis\n    aesho")
 }
 
-#[get("/Adharcaiin")]
-async fn Adharcaiin() -> impl Responder {
-    let response = returncreaturedata("Adharcaiin");
+#[get("/adharcaiin")]
+async fn adharcaiin() -> impl Responder {
+    let response = returncreaturedata("adharcaiin");
     HttpResponse::Ok().body(response)
 }
 
-#[get("/Aereis")]
-async fn Aereis() -> impl Responder {
-    let response = returncreaturedata("Aereis");
+#[get("/aereis")]
+async fn aereis() -> impl Responder {
+    let response = returncreaturedata("aereis");
     HttpResponse::Ok().body(response)
 }
 
-#[get("/Aesho")]
-async fn Aesho() -> impl Responder {
-    let response = returncreaturedata("Aesho");
+#[get("/aesho")]
+async fn aesho() -> impl Responder {
+    let response = returncreaturedata("aesho");
     HttpResponse::Ok().body(response)
 }
 
@@ -50,9 +50,9 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(root)
-            .service(Aereis)
-            .service(Adharcaiin)
-            .service(Aesho)
+            .service(aereis)
+            .service(adharcaiin)
+            .service(aesho)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
