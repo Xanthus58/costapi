@@ -1,4 +1,4 @@
-use actix_web::{dev::Response, get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use sqlite::State;
 
 fn returndbdata(creature: &str) -> String {
@@ -11,7 +11,6 @@ fn returndbdata(creature: &str) -> String {
     query = &binding;
 
     let mut statement = connection.prepare(query).unwrap();
-
 
     let mut response = String::new();
     while let Ok(State::Row) = statement.next() {
@@ -48,20 +47,6 @@ async fn Aesho() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let creatures = ["Adharcaiin", "Aereis", "Aesho"];
-
-    let connection = sqlite::open("./sqlite.db").unwrap();
-        // Query string formatted in SQL
-        let query = "
-        CREATE TABLE cosdata (creature TEXT, price INTEGER);
-        INSERT INTO cosdata VALUES ('Adharcaiin', 1000);
-        INSERT INTO cosdata VALUES ('Aereis', 25000);
-        INSERT INTO cosdata VALUES ('Aesho', 50);
-    ";
-
-    // Calls the query to be ran in the database
-    connection.execute(query).unwrap();
-
     HttpServer::new(|| {
         App::new()
             .service(root)
