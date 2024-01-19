@@ -7,7 +7,7 @@ fn returncreaturedata(creature: &str) -> String {
 
     let creature = format!("'{}'", creature);
 
-    let binding = (query.to_string() + &creature);
+    let binding = query.to_string() + &creature;
     query = &binding;
 
     let mut statement = connection.prepare(query).unwrap();
@@ -19,7 +19,7 @@ fn returncreaturedata(creature: &str) -> String {
         response = creature + ", " + &price.to_string();
         println!("{}", response);
     }
-    return response.to_string().to_lowercase();
+    response.to_string().to_lowercase()
 }
 
 #[get("/")]
