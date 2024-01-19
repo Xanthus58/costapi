@@ -1,4 +1,4 @@
-use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder, web};
 use sqlite::State;
 
 fn returncreaturedata(creature: &str) -> String {
@@ -27,32 +27,21 @@ async fn root() -> impl Responder {
     HttpResponse::Ok().body("Endpoints:\n    adharcaiin\n    aereis\n    aesho")
 }
 
-#[get("/adharcaiin")]
-async fn adharcaiin() -> impl Responder {
-    let response = returncreaturedata("adharcaiin");
+#[get("/{creature}")]
+async fn displayout(arg: web::Path<(String)>) -> impl Responder {
+    let arg = arg.into_inner();
+    let creature = format!("{}", arg.to_string().to_ascii_lowercase());
+    let response = returncreaturedata(&creature);
     HttpResponse::Ok().body(response)
 }
 
-#[get("/aereis")]
-async fn aereis() -> impl Responder {
-    let response = returncreaturedata("aereis");
-    HttpResponse::Ok().body(response)
-}
-
-#[get("/aesho")]
-async fn aesho() -> impl Responder {
-    let response = returncreaturedata("aesho");
-    HttpResponse::Ok().body(response)
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(root)
-            .service(aereis)
-            .service(adharcaiin)
-            .service(aesho)
+            .service(displayout)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
