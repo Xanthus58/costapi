@@ -2,7 +2,7 @@ use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use sqlite::State;
 
 fn returndbdata(creature: &str) -> String {
-    let connection = sqlite::open("./sqlite.db").unwrap();
+    let connection = sqlite::open("./data/sqlite.db").unwrap();
     let mut query = "SELECT * FROM cosdata WHERE creature = ";
 
     let creature = format!("'{}'", creature);
